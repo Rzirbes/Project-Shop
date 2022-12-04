@@ -12,7 +12,7 @@ class ProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
-    final cart = Provider.of<Cart>(context);
+    final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
@@ -63,9 +63,14 @@ class ProductGridItem extends StatelessWidget {
               arguments: product,
             );
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder:
+                  const AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
